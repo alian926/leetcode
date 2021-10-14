@@ -23,28 +23,33 @@
  * @return {ListNode}
  */
 //参考解析
-function ListNode(val,next=null) {
-         this.val = val;
-         this.next = next;
-     }
-var addTwoNumbers = function(l1, l2) {
-    const headNode = new ListNode('head');
-    //头节点不做考虑,从第一个next开始计数
-    let tmp = headNode;
-    let add = 0;
-    let sum = 0;
-    while(l1 || l2) {
-        sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + add;
-        tmp.next = new ListNode(sum % 10);
-        add = sum >= 10 ? 1 : 0;
-        tmp = tmp.next;
-        l1 && (l1 = l1.next);
-        l2 && (l2 = l2.next);
-    }
-    add && (tmp.next = new ListNode(add))
-    return headNode.next
+function ListNode(val, next = null) {
+	this.val = val;
+	this.next = next;
+}
+var addTwoNumbers = function (l1, l2) {
+	const headNode = new ListNode('head');
+  // //头节点不做考虑,从第一个next开始计数
+	let tmp = headNode;
+	let add = 0;
+	let sum = 0;
+	while (l1 || l2) {
+		sum = l1?.val ?? 0 + l2?.val ?? 0 + add;
+		tmp.next = new ListNode(sum % 10);
+		add = sum >= 10 ? 1 : 0;
+		l1 = l1?.next;
+		l2 = l2?.next;
+		tmp = tmp.next;
+	}
+	add && (tmp.next = new ListNode(add));
+	return headNode.next;
 };
-[2,4,3];
-[5,6,4];
-[7,0,8];
-console.log(addTwoNumbers({val:2,next:{val:4,next:{val:3,next:null}}},{val:5,next:{val:6,next:{val:4,next:null}}}))
+[2, 4, 3];
+[5, 6, 4];
+[7, 0, 8];
+console.log(
+	addTwoNumbers(
+		{ val: 2, next: { val: 4, next: { val: 3, next: null } } },
+		{ val: 5, next: { val: 6, next: { val: 4, next: null } } }
+	)
+);

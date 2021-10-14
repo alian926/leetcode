@@ -52,20 +52,18 @@
 //     return max
 // };
 //第二种想法,在第一种上改进了,加快执行速度
-var lengthOfLongestSubstring = function(s) {
-    let tmpStr = '';
-    let max = 0;
-    s.split('').forEach( (value,index) => {
-        let repeatIndex = tmpStr.indexOf(value)
-        if(repeatIndex < 0) {
-            tmpStr += value
-        }else {
-            max < tmpStr.length && (max = tmpStr.length)
-            let fragment =tmpStr.slice(repeatIndex + 1)
-            tmpStr = fragment + value
-        }
-    })
-    max < tmpStr.length && (max = tmpStr.length)
-    return max
+var lengthOfLongestSubstring = function (s) {
+	let fragment = '';
+	let max = 0;
+	s.split('').forEach((val) => {
+		let pos = fragment.indexOf(val);
+		if (pos === -1) {
+			fragment += val;
+		} else {
+			max = Math.max(max, fragment.length);
+			fragment = fragment.slice(pos + 1) + val;
+		}
+	});
+	max = Math.max(max, fragment.length);
 };
-console.log(lengthOfLongestSubstring('bbbbb'))
+console.log(lengthOfLongestSubstring('bbbbb'));

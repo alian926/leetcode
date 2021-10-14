@@ -59,13 +59,14 @@ var findMedianSortedArrays = function(nums1, nums2) {
     //         return nums[length<<1];
     //     }
     // }
-    
+    // 中位数 将一个集合划分为两个长度相等的子集，其中一个子集中的元素总是大于另一个子集中的元素。
     let len1 = nums1.length;
     let len2 = nums2.length;
     //使用二分法查找,以较短的数组为基准
     if(len1 > len2) {
         return findMedianSortedArrays(nums2,nums1);
     }
+    // 当一个数组不出现在后一部分时，对应的值为正无穷，就不会对后一部分的最小值产生影响。
     nums1.push(Infinity);
     nums2.push(Infinity);
     let totalMid = (len1 + len2) >> 1;//两个数组合并后的中值为totalMid
@@ -85,14 +86,19 @@ var findMedianSortedArrays = function(nums1, nums2) {
     let mid1 = (left + right) >> 1;
     let mid2 = totalMid - mid1;
     while(true){
+        // l1,l2 是nums1,nums2的左区间值,r1,r2是nums1,nums2的右区间值
+        // 当一个数组不出现在前一部分时，对应的值为负无穷，就不会对前一部分的最大值产生影响
         let l1 = mid1 === 0 ? -Infinity : nums1[mid1-1];
         let l2 = mid2 === 0 ? -Infinity : nums2[mid2-1];
         let r1 = nums1[mid1];//这里由于我们在最后push了一个Infinity，所以不必考虑右边的边界条件了
         let r2 = nums2[mid2];
+        // 前一部分的最大值小于等于后一部分的最小值。
         if(l1<=r2 && l2<=r1){
             if( (len1+len2) % 2 === 0) {
+              // 偶数长度情况
                 return (Math.max(l1,l2)+Math.min(r1,r2))/2;
             }else {
+              // 奇数长度情况
                 return Math.min(r1,r2);
             }
         }
