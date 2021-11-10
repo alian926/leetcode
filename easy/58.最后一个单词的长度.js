@@ -27,6 +27,7 @@ var lengthOfLastWord = function(s) {
 // 从右向左遍历
 var lengthOfLastWord = function(s) {
     let result = 0
+    // 存在字符两边是空白的情况
     let tag = false;
     for(let i=s.length-1; i>=0; i--) {
         if(s[i] != ' ') {
