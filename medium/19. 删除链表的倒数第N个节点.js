@@ -26,17 +26,18 @@
  * @param {number} n
  * @return {ListNode}
  */
-var removeNthFromEnd = function(head, n) {
-    let current = head;
-    let bags = [];
-    while(current) {
-        bags.push(current);
-        current = current.next;
-    }
-    let needRmIndex = bags.length - n;
-    if(!needRmIndex){
-        return head.next
-    }
-    bags[needRmIndex - 1].next = (bags[needRmIndex + 1] || null);
-    return head
+var removeNthFromEnd = function (head, n) {
+	let current = head;
+	let bags = [];
+	while (current) {
+		bags.push(current);
+		current = current.next;
+	}
+	let needRmIndex = bags.length - n;
+	// [1],1 [1,2] 2 删除的是头结点的情况 
+	if (needRmIndex === 0) {
+		return head.next;
+	}
+	bags[needRmIndex - 1].next = bags[needRmIndex + 1] || null;
+	return head;
 };
