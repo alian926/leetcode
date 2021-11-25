@@ -27,6 +27,8 @@ s 保证是一个符合题目要求的字符串
  */
 
 // https://leetcode-cn.com/problems/reconstruct-original-digits-from-english/solution/cong-ying-wen-zhong-zhong-jian-shu-zi-by-9g1r/ 官方题解
+
+//0的英文是zero，1的英文是one，2的英文是two，3的英文是three，4的英文是four，5的英文是five，6的英文是six，7的英文是seven，8的英文是eight，9的英文是nine。
 var originalDigits = function (s) {
   const c = new Map();
   for (const ch of s) {
