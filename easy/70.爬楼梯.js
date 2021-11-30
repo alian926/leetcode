@@ -29,28 +29,28 @@
  */
 
 //回溯方法, 超时了, 不合理
-var climbStairs = function(n) {
-    if(!n) return 0;
-    let res = 0;
-    let dfs = function(n){
-        if(n <= 1) {
-            return res += 1;
-        }
-        for(let i=1; i<=2; i++) {
-            dfs(n-i);
-        }
+var climbStairs = function (n) {
+  if (!n) return 0;
+  let res = 0;
+  let dfs = function (n) {
+    if (n <= 1) {
+      return (res += 1);
     }
-    dfs(n)
-    return res;
+    for (let i = 1; i <= 2; i++) {
+      dfs(n - i);
+    }
+  };
+  dfs(n);
+  return res;
 };
 
 //动态规划, 爬山n阶楼梯, 等于n-1 加上n-2的两种情况和
-var climbStairs = function(n) {
-    //最简单情况
-    let dn = [1,1];
-    //找出 n时的各种情况的结果
-    for(let i=2; i<=n; i++) {
-        dn.push(dn[i-1]+dn[i-2])
-    }
-    return dn[n]
-}
+var climbStairs = function (n) {
+  //最简单情况
+  let dn = [1, 1];
+  //找出 n时的各种情况的结果
+  for (let i = 2; i <= n; i++) {
+    dn.push(dn[i - 1] + dn[i - 2]);
+  }
+  return dn[n];
+};

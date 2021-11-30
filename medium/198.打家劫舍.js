@@ -32,29 +32,29 @@
  */
 // 并不是隔一个取值就是最大
 // 动态规划, 常规解法, 每步有依赖于前面的情况
-var rob = function(nums) {
-    if(nums.length <= 1) return nums[0] || 0;
-    let dp = [];
-    dp[0] = nums[0]
-    dp[1] = Math.max(nums[0], nums[1])
-    // 当前位置的最大值, 取决于前第一个  或者 前第二个和当前值的和
-    for(let i=2; i<nums.length; i++) {
-        dp[i] = Math.max( dp[i-2]+nums[i], dp[i-1])
-    }
-    return dp[nums.length-1]
+var rob = function (nums) {
+  if (nums.length <= 1) return nums[0] || 0;
+  let dp = [];
+  dp[0] = nums[0];
+  dp[1] = Math.max(nums[0], nums[1]);
+  // 当前位置的最大值, 取决于前第一个  或者 前第二个和当前值的和
+  for (let i = 2; i < nums.length; i++) {
+    dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+  }
+  return dp[nums.length - 1];
 };
 // 动态规划, 由于每个房间的情况只和前两个房间有关,所以可以使用滚动数组
-var rob = function(nums) {
-    if(nums.length <= 1) return nums[0] || 0;
-    let dp = [];
-    let first = nums[0]
-    let second = Math.max(nums[0], nums[1])
-    for(let i=2; i<nums.length; i++) {
-        // first,second 向后移动1位
-        // 更新位置后 second其实就是当前位置最大的值
-        let tmp = second
-        second = Math.max( first+nums[i], second)
-        first = tmp
-    }
-    return second
+var rob = function (nums) {
+  if (nums.length <= 1) return nums[0] || 0;
+  let dp = [];
+  let first = nums[0];
+  let second = Math.max(nums[0], nums[1]);
+  for (let i = 2; i < nums.length; i++) {
+    // first,second 向后移动1位
+    // 更新位置后 second其实就是当前位置最大的值
+    let tmp = second;
+    second = Math.max(first + nums[i], second);
+    first = tmp;
+  }
+  return second;
 };
