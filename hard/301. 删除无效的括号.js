@@ -54,7 +54,7 @@ var removeInvalidParentheses = function (s) {
             // 尝试去掉一个左括号
             if (lremove > 0 && str[i] === '(') {
                 helper(
-                    str.substring(0, i) + str.substring(i+1),
+                    str.substring(0, i) + str.substring(i + 1),
                     i,
                     lremove - 1,
                     rremove
@@ -63,7 +63,7 @@ var removeInvalidParentheses = function (s) {
             // 尝试去掉一个右括号
             if (rremove > 0 && str[i] === ')') {
                 helper(
-                    str.substring(0, i) + str.substring(i+1),
+                    str.substring(0, i) + str.substring(i + 1),
                     i,
                     lremove,
                     rremove - 1
@@ -94,7 +94,7 @@ var removeInvalidParentheses = function (s) {
 };
 
 // 校验括号的合理性
-const isValid = str => {
+var isValid = str => {
     let cnt = 0;
 
     for (let i = 0; i < str.length; i++) {
@@ -111,8 +111,7 @@ const isValid = str => {
     return cnt === 0;
 };
 
-
-var removeInvalidParentheses = function(s) {
+var removeInvalidParentheses = function (s) {
     const ans = [];
     let currSet = new Set();
 
@@ -130,7 +129,7 @@ var removeInvalidParentheses = function(s) {
         }
         const nextSet = new Set();
         for (const str of currSet) {
-            for (let i = 0; i < str.length; i ++) {
+            for (let i = 0; i < str.length; i++) {
                 // 去除连续相同括号的情况, 结果相同, 手动剪枝
                 if (i > 0 && str[i] === str[i - 1]) {
                     continue;
@@ -143,4 +142,49 @@ var removeInvalidParentheses = function(s) {
         }
         currSet = nextSet;
     }
-}
+};
+
+// 复写
+var isValid = s => {
+    let count = 0;
+    for (let c of s) {
+        if (c === '(') {
+            count++;
+        } else if (c === ')') {
+            if (count === 0) {
+                return false;
+            }
+            count--;
+        }
+    }
+    return count === 0;
+};
+
+var removeInvalidParentheses = function (s) {
+    let ans = [];
+    let currSet = new Set([s]);
+    while (true) {
+        for (let c of currSet) {
+            if (isValid(c)) {
+                ans.push(c);
+            }
+        }
+        if (ans.length > 0) {
+            return ans;
+        }
+        let nextSet = new Set();
+        for (let c of currSet) {
+            for (let i = 0; i < c.length; i++) {
+                if (i > 0 && c[i] === c[i - 1]) {
+                    continue;
+                }
+                if (c[i] === ')' || c[i] === '(') {
+                    nextSet.add(c.substring(0, i) + c.substring(i + 1));
+                }
+            }
+        }
+        currSet = nextSet;
+    }
+};
+
+console.log(removeInvalidParentheses('()())()'));
