@@ -60,18 +60,65 @@
 // 动态规划, 将大规模问题拆解成小规模的问题
 // 题解: https://leetcode-cn.com/problems/guess-number-higher-or-lower-ii/solution/cai-shu-zi-da-xiao-ii-by-leetcode-soluti-a7vg/
 var getMoneyAmount = function (n) {
-	const f = new Array(n + 1).fill(0).map(() => new Array(n + 1).fill(0));
+    // 取值 1~n 忽略0处的值, 构建n+1的二维数组
+    // f[i][j]表示在范围 [i,j] 内确保胜利的最少金额，目标是计算f(1,n)
+    const f = new Array(n + 1).fill(0).map(() => new Array(n + 1).fill(0));
 
-  // 逆序求解
-	for (let i = n - 1; i >= 1; i--) {
-		for (let j = i + 1; j <= n; j++) {
-			f[i][j] = j + f[i][j - 1];
-			// 为了避免出现下标越界，计算 f[i][j] 的方法是：首先令 f[i][j] = j + f[i][j - 1]，然后遍历 i <= k < j 的每个 k，更新 f[i][j] 的值。
-			for (let k = i; k < j; k++) {
-				// 猜测数字x猜错时,如果x大于所选数字,还要支付金额是f(1, x-1),x小于所选数字时,还要支付金额f(x+1, n)
-				f[i][j] = Math.min(f[i][j], k + Math.max(f[i][k - 1], f[k + 1][j]));
-			}
-		}
-	}
-	return f[1][n];
+    // 由于状态转移方程为根据规模小的子问题计算规模大的子问题，因此计算子问题的顺序为先计算规模小的子问题，后计算规模大的子问题
+    // 逆序求解
+    for (let i = n - 1; i >= 1; i--) {
+        for (let j = i + 1; j <= n; j++) {
+            // 状态转移方程 f(i,j) = min(k + max(f(i, k-1), f(k+1, j))) ,其中i<=k<=j
+            // 为了避免出现k+1下标越界，计算 f[i][j] 的方法是：首先令 f[i][j] = j + f[i][j - 1](相等于最大值的情况 如从1~5猜1~6多加了6块钱)，然后遍历 i <= k < j 的每个 k，更新 f[i][j] 的值。
+            f[i][j] = j + f[i][j - 1];
+
+            for (let k = i; k < j; k++) {
+                // 猜测数字x猜错时,如果x大于所选数字,还要支付金额是f(1, x-1),x小于所选数字时,还要支付金额f(x+1, n)
+                // Math.max(f[i][k - 1], f[k + 1][j]) 为 确保获胜
+                // Math.min(f[i][j],~~~) 最小现金数
+                f[i][j] = Math.min(
+                    f[i][j],
+                    k + Math.max(f[i][k - 1], f[k + 1][j])
+                );
+            }
+        }
+    }
+    return f[1][n];
 };
+
+var getMoneyAmount = function (n) {
+    // 1~n
+    const ans = new Array(n + 1).fill(0).map(() => new Array(n + 1).fill(0));
+
+    for (let i = n - 1; i >= 1; i--) {
+        for (let j = i + 1; j <= n; j++) {
+            ans[i][j] = j + ans[i][j - 1];
+            for (let k = i; k < j; k++) {
+                ans[i][j] = Math.min(ans[i][j], k+Math.max(ans[i][k - 1], ans[k + 1][j]));
+            }
+        }
+    }
+
+    return ans[1][n];
+};
+
+var getMoneyAmount = function (n) {
+    const cache = new Array(n + 1).fill(0).map(() => new Array(n + 1).fill(0));
+    const dfs = ( l,  r) =>  {
+        if (l >= r) return 0;
+        if (cache[l][r] != 0) return cache[l][r];
+        let ans = Infinity;
+        for (let x = l; x <= r; x++) {
+            // 当选择的数位 x 时，至少需要 cur 才能猜中数字
+            let cur = Math.max(dfs(l, x - 1), dfs(x + 1, r)) + x;
+            // 在所有我们可以决策的数值之间取最优
+            ans = Math.min(ans, cur);
+        }
+        cache[l][r] = ans;
+        return ans;
+    }
+    return dfs(1, n);
+}
+
+
+console.log(getMoneyAmount(10))
