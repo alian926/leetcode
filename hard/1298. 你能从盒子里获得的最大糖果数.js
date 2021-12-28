@@ -72,6 +72,56 @@ containedBoxes[i] 中的值都是互不相同的。
  * @return {number}
  */
 
+ var maxCandies = function (
+    status,
+    candies,
+    keys,
+    containedBoxes,
+    initialBoxes
+) {
+    let getKeys = new Set();
+    let ans = 0;
+
+    let boxes = [...initialBoxes];
+    boxes.sort((a, b) => a - b);
+    while (boxes) {
+        let tmp = [];
+        for (let i = 0; i < boxes.length; i++) {
+            const index = boxes[i];
+            if (status[index] == 1 || getKeys.has(index)) {
+                // 操作开箱的盒子
+                for (let key of keys[index]) {
+                    getKeys.add(key);
+                }
+                for (let containedBox of containedBoxes[index]) {
+                    tmp.push(containedBox);
+                }
+                ans += candies[index];
+            } else {
+                // 没开过的先放起来
+                tmp.push(index);
+            }
+        }
+        // 全部的盒子都无法操作了
+        tmp.sort((a, b) => a - b);
+        if (boxes.length == tmp.length) {
+            let tag = true
+            for (let i = 0; i < boxes.length; i++) {
+                if (boxes[i] !== tmp[i]) {
+                    tag = false
+                    break;
+                }
+            }
+            if(tag) {
+                break;
+            }
+        }
+        boxes = tmp;
+    }
+
+    return ans;
+};
+
 // BFS
 var maxCandies = function (
     status,
