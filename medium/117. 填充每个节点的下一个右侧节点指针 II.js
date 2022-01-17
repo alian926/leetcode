@@ -126,4 +126,5 @@ var connect = function(root) {
         }
         start = nextStart;
     }
+    return root
 }

@@ -26,14 +26,14 @@
  * @param {number[]} prices
  * @return {number}
  */
-var maxProfit = function(prices) {
-    let max = 0;
-    let left=0,right=prices.length;
-    while(left < right) {
-        max = Math.max(prices[right]-prices[left], max);
-
+ var maxProfit = function(prices) {
+    let min = prices[0];
+    let ans = 0;
+    for(let price of prices) {
+        ans = Math.max(ans, price-min);
+        min = Math.min(min, price)
     }
-    return max;
+    return ans
 };
 
 //一次循环,根据最低点买入的,统计最高
