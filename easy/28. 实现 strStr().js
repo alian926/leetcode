@@ -73,7 +73,7 @@ var strStr = function (haystack, needle) {
 	const pi = new Array(m).fill(0);
   // 构建跳转目标位置pi  pi[0]===0 恒成立
 	for (let i = 1, j = 0; i < m; i++) {
-    // 如果needle[i]!==needle[j], j=pi[j-1],重新进行,直到如果needle[j]===如果needle[i],或者j===0;
+    // 如果needle[i]!==needle[j], j=pi[j-1],重新进行,直到needle[j]===needle[i],或者j===0;
 		while (j > 0 && needle[i] !== needle[j]) {
 			j = pi[j - 1];
 		}
