@@ -12,32 +12,36 @@
 输出: "bb"
  */
 
- /**
+/**
  * @param {string} s
  * @return {string}
  */
-var longestPalindrome = function(s) {
-    let len=s.length;
+// 动态规划
+var longestPalindrome = function (s) {
+    let len = s.length;
     let ans = '';
     let dp = [];
     //let dp = Array(len).fill(Array(len).fill(0)) 这种创建二维数组的方式是错误的, 二层都指向了同一个区域
-    for(let idx = 0; idx< len; idx++) {
-        dp.push(Array(len).fill(false))
+    for (let idx = 0; idx < len; idx++) {
+        dp.push(Array(len).fill(false));
     }
-    for(let dis=0; dis<len; dis++ ) {
-        for(let i = 0; i + dis < len; i++) {
+    // 第一次循环偏移距离, 即结果字符串的长度
+    for (let dis = 0; dis < len; dis++) {
+        // 第二次循环下标
+        for (let i = 0; i + dis < len; i++) {
             let j = i + dis;
-            if(dis == 0) {
+            if (dis == 0) {
                 // 单个字母也是回文组合
                 dp[i][j] = true;
             } else if (dis == 1) {
                 //两个相同的情况下也是回文
-                dp[i][j] = (s[i] == s[j])
+                dp[i][j] = s[i] == s[j];
             } else {
-                dp[i][j] = (s[i] == s[j] && dp[i + 1][j - 1]);
+                // 本身及向内部靠拢的也是回文
+                dp[i][j] = s[i] == s[j] && dp[i + 1][j - 1];
             }
-            if(dp[i][j] && dis + 1 > ans.length) {
-                ans = s.substring(i, j + 1)
+            if (dp[i][j] && dis + 1 > ans.length) {
+                ans = s.substring(i, j + 1);
             }
         }
     }

@@ -66,6 +66,7 @@ var threeSum = function(nums) {
     //由于边界值比较多,判断能处理的类型
     //如果同符号,则不可能是0, 必须两侧不同符号,或者都是0
     if(nums[0] <= 0 && nums[length-1] >= 0) {
+        // 需要3个数 , 所以是长度-2
         for(let first=0; first < length - 2;) {
             if (nums[first] > 0) break; // 最左值为正数则一定无解
             //first为基准值, second,third 要和i配对的值,两者不小于i

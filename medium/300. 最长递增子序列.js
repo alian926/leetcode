@@ -36,7 +36,7 @@
  * @param {number[]} nums
  * @return {number}
  */
-var lengthOfLIS = function (nums) {
+var lengthOfLIS1 = function (nums) {
     let tails = Array(nums.length).fill(0);
     let res = 0;
     for (let key in nums) {
@@ -58,7 +58,7 @@ var lengthOfLIS = function (nums) {
     return res;
 };
 
-var lengthOfLIS = function (nums) {
+var lengthOfLIS2 = function (nums) {
     let len = nums.length;
     if (!len) return 0;
     let dep = Array(len).fill(1);
@@ -73,7 +73,7 @@ var lengthOfLIS = function (nums) {
 };
 
 // // VUE3 实现
-var lengthOfLIS = function (arr) {
+var lengthOfLIS3 = function (arr) {
     // p 里面的内容无所谓, 记录的有效值是索引,当前下标的值是上一个值的索引
     const p = arr.slice();
     // result存储的是结果的索引, 默认放入第一项
@@ -139,4 +139,4 @@ var lengthOfLIS = function (arr) {
     return result.length;
 };
 
-console.log('ans', lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]));
+console.log('ans', lengthOfLIS2([10, 9, 2, 5, 3, 7, 101, 18]));
